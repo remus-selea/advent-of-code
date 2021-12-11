@@ -13,21 +13,23 @@ async function processLineByLine() {
         let prevNumber = 0;
 
         rl.on('line', (line) => {
+            let currentNumber = Number(line);
 
             if (prevNumber == 0) {
-                prevNumber = Number(line);
-            } else if (Number(line) > prevNumber) {
-                totalIncreases++;
+                prevNumber = currentNumber;
+            } else {
+                if (currentNumber > prevNumber) {
+                    totalIncreases++;
+                }
+
+                prevNumber = currentNumber;
             }
 
-            prevNumber = Number(line);
         });
 
         await events.once(rl, 'close');
 
       return totalIncreases;
-
-
     } catch (err) {
         console.error(err);
     }
